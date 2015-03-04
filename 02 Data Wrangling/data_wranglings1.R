@@ -45,7 +45,19 @@ nash_data<- bind_rows(nash_spring, nash_summer, nash_fall, nash_winter)
 seat_data<- bind_rows(seat_spring, seat_summer, seat_fall, seat_winter)
 
 all_data<- bind_rows(austin_data, nash_data, seat_data)
+ 
 
-innerjoindf <- data.frame(fromJSON(getURL(URLencode('129.152.144.84:5001/rest/native/?query="select CDA.DATE_YMD, CDNS.DATE_YMD, CDA.ELEVATION, CDNS.ELEVATION, CDA.PRCP, CDNS.PRCP, CDA.PSUN, CDNS.PSUN from CLIMATE_DATA_AUSTIN CDA inner join CLIMATE_DATA_NASH_SEAT CDNS on CDA.DATE_YMD = CDNS.DATE_YMD"'),httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521:ORCL',USER='C##cs329e_eaj628',PASS='orcl_eaj628',MODE='native_mode',MODEL='model',returnDimensions = 'False',returnFor = 'JSON'),verbose = TRUE)))
+aust_prcp <- austin_data %>% group_by(DATE_YMD) %>% summarise(austPrcp = max(PRCP))%>% arrange(DATE_YMD)
+nash_prcp <- nash_data %>% group_by(DATE_YMD) %>% summarise(nashPrcp = max(PRCP))%>% arrange(DATE_YMD)
+seat_prcp <- seat_data %>% group_by(DATE_YMD) %>% summarise(seatPrcp = max(PRCP))%>% arrange(DATE_YMD)
 
-leftjoindf <- data.frame(fromJSON(getURL(URLencode('129.152.144.84:5001/rest/native/?query="select CDA.DATE_YMD, CDNS.DATE_YMD, CDA.AWND, CDNS.AWND, CDA.WSF2, CDNS.WSF2, CDA.WT11, CDNS.WT11 from CLIMATE_DATA_AUSTIN CDA left outer join CLIMATE_DATA_NASH_SEAT CDNS on CDA.DATE_YMD = CDNS.DATE_YMD"'),httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521:ORCL',USER='C##cs329e_eaj628',PASS='orcl_eaj628',MODE='native_mode',MODEL='model',returnDimensions = 'False',returnFor = 'JSON'),verbose = TRUE)))
+
+aust_nash <- inner_join(aust_prcp, nash_prcp, by = "DATE_YMD")
+prcp_InnerJoin <- inner_join(aust_nash, seat_prcp, by = "DATE_YMD")
+
+nash_TEMP <- nash_data %>% group_by(DATE_YMD) %>% summarise(nashMinTemp = max(TMIN), nashMaxTemp = max(TMAX))%>% arrange(DATE_YMD)
+seat_TEMP <- seat_data %>% group_by(DATE_YMD) %>% summarise(seatMinTemp = max(TMIN), seatMaxTemp = max(TMAX))%>% arrange(DATE_YMD)
+
+nash_seatTEMP <- left_join(seat_TEMP, nash_TEMP, by = "DATE_YMD")
+
+
