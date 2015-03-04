@@ -45,8 +45,18 @@ nash_data<- bind_rows(nash_spring, nash_summer, nash_fall, nash_winter)
 seat_data<- bind_rows(seat_spring, seat_summer, seat_fall, seat_winter)
 
 all_data<- bind_rows(austin_data, nash_data, seat_data)
- 
 
+#Groups by season, finds average rain fall then joins on season 
+austin_SEASON <- austin_data %>% group_by(SEASON) %>% summarise(austinPRCP = mean(PRCP))
+nash_SEASON <- nash_data %>% group_by(SEASON) %>% summarise(nashPRCP = mean(PRCP))
+seat_SEASON <- seat_data %>% group_by(SEASON) %>% summarise(seatPRCP = mean(PRCP))
+
+aust_nash <- inner_join(austin_SEASON, nash_SEASON, by = "SEASON")
+SEASON_InnerJoin <- inner_join(aust_nash, seat_SEASON, by = "SEASON")
+
+
+ 
+# Finds the max precipitation of each city by date then inner joins all the tables on date  
 aust_prcp <- austin_data %>% group_by(DATE_YMD) %>% summarise(austPrcp = max(PRCP))%>% arrange(DATE_YMD)
 nash_prcp <- nash_data %>% group_by(DATE_YMD) %>% summarise(nashPrcp = max(PRCP))%>% arrange(DATE_YMD)
 seat_prcp <- seat_data %>% group_by(DATE_YMD) %>% summarise(seatPrcp = max(PRCP))%>% arrange(DATE_YMD)
@@ -55,6 +65,7 @@ seat_prcp <- seat_data %>% group_by(DATE_YMD) %>% summarise(seatPrcp = max(PRCP)
 aust_nash <- inner_join(aust_prcp, nash_prcp, by = "DATE_YMD")
 prcp_InnerJoin <- inner_join(aust_nash, seat_prcp, by = "DATE_YMD")
 
+#Finds the min and max recorded temperatures for Seattle and Nashville by date. 
 nash_TEMP <- nash_data %>% group_by(DATE_YMD) %>% summarise(nashMinTemp = max(TMIN), nashMaxTemp = max(TMAX))%>% arrange(DATE_YMD)
 seat_TEMP <- seat_data %>% group_by(DATE_YMD) %>% summarise(seatMinTemp = max(TMIN), seatMaxTemp = max(TMAX))%>% arrange(DATE_YMD)
 
