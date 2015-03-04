@@ -1,6 +1,9 @@
-# just some ideas on visualizations, just so you can better interpret how to make nice graphs- you can delete these later I'm just playing to give you some examples
-g1 <- all_data %>% filter(DATE_YMD<20140000, TMAX!=-9999) %>% ggplot(aes(x=DATE_YMD, y=TMAX, color=CITY)) +geom_point()
-# this one takes the big DF looking at only 2013 (2014/01/01 is included and it's annoying) and only looking at recorded results (-9999 shows up a lot because a lot of data is not reported)
-g2 <- all_data %>% filter(DATE_YMD<20140000, TMAX!=-9999) %>% ggplot(aes(x=CITY, y=TMAX, color=SEASON)) +geom_violin()
+g1 <- prcp_InnerJoin %>% filter(DATE_YMD<20140000) %>% ggplot(aes(x=DATE_YMD, color = "City")) + geom_point(aes(y = austPrcp, colour = "Austin"))+ geom_point(aes(y = nashPrcp, colour = "Nash")) + geom_point(aes(y = seatPrcp, colour = "Seat"))+ ylab("Precipitation")
 
-#pushViewport(viewport(layout=grid.layout(2,1)))
+g2 <- nash_seatTEMP%>%filter(DATE_YMD<20140000)%>%ggplot(aes(x= DATE_YMD, y = nashMaxTemp))+geom_point(aes(y=nashMinTemp, colour = "Nash Min Temp"))+geom_point(aes(y=nashMaxTemp, colour = "Nash Max Temp"))+geom_point(aes(y=seatMinTemp, colour = "Seattle Min Temp"))+geom_point(aes(y=seatMaxTemp, colour = "Seattle Max Temp")) + ylab("Temperature")
+
+g3 <- all_data %>% filter(DATE_YMD<20140000, TMAX!=-9999) %>% ggplot(aes(x=DATE_YMD, y=TMAX, color=CITY)) +geom_point()
+
+g4 <- all_data %>% filter(DATE_YMD<20140000, TMAX!=-9999) %>% ggplot(aes(x=CITY, y=TMAX, color=SEASON)) +geom_violin()
+
+

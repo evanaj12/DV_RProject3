@@ -104,17 +104,32 @@ data.frame(head(nash_seatTEMP))
 source("../03 Visualizations/practice_viz.R")
 
 ```
+**Max Precipitation by Date and City**
+The third plot shows the max percipitation of a city grouped by the date. Therefore it reports whichever weather station in a specific city reported the most rain on a given day.
+ 
+ ```{r, eval =TRUE, echo=TRUE}
+plot(g1)
+
+```
+**Maximum and Minimum Temperature by Date and City**
+This plot shows the distribution of maximum and minimum temperatures by city throughout the span of the year. There are clear trends for which city exhibits more extreme temperatures, but it is interesting to note that occasionally Nashville exhibits lower minimum temperatures than Seattle. 
+
+ ```{r, eval =TRUE, echo=TRUE}
+plot(g2)
+
+```
 **Max Temp per City**
 The first plot shows the maxium temperature over time by city without null values.
 
 ```{r, eval =TRUE, echo=TRUE}
-plot(g1,vp=viewport(layout.pos.row=1,layout.pos.col=1))
+plot(g3,vp=viewport(layout.pos.row=1,layout.pos.col=1))
 
 ```
 **Max Temp by Season**
 This second plot shows the temperature range by Season of each city. The violin plot is an interesting way to show the variation in temperature per season. Interestingly Fall and Spring tend to have a much wider range of temperatures than Summer and Fall.
 
 ```{r, eval =TRUE, echo=TRUE}
-print(g2,vp=viewport(layout.pos.row=2,layout.pos.col=1))
+plot(g4,vp=viewport(layout.pos.row=2,layout.pos.col=1))
 
 ```
+
