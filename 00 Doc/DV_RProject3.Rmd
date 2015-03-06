@@ -77,13 +77,7 @@ data.frame(head(nash_seatTEMP))
 source("../03 Visualizations/practice_viz.R")
 
 ```
-**Max Temp per City**
-The first plot shows the maxium temperature over time by city without null values.
 
-```{r, eval =TRUE, echo=TRUE}
-plot(g3,vp=viewport(layout.pos.row=1,layout.pos.col=1))
-
-```
 **Max Precipitation by Date and City**
 The third plot shows the max percipitation of a city grouped by the date. Therefore it reports whichever weather station in a specific city reported the most rain on a given day.
  
@@ -103,6 +97,13 @@ This second plot shows the temperature range by Season of each city. The violin 
 
 ```{r, eval =TRUE, echo=TRUE}
 plot(g4,vp=viewport(layout.pos.row=2,layout.pos.col=1))
+
+```
+**Max Temp per City**
+The first plot shows the maxium temperature over time by city without null values.
+
+```{r, eval =TRUE, echo=TRUE}
+plot(g3,vp=viewport(layout.pos.row=1,layout.pos.col=1))
 
 ```
 
